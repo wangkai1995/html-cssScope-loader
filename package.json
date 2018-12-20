@@ -1,5 +1,5 @@
 {
-  "name": "html-cssscope-loader",
+  "name": "html-css-scope-loader",
   "version": "0.0.0",
   "description": "html add css scope ( html template add css module)",
   "main": "index.js",
