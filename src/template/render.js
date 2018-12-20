@@ -70,7 +70,9 @@ var renderElement = function(astEl,moudelId){
 	if(astEl.className){
 		el.className = astEl.className
 	}
-	el.setAttribute('data-cssID-'+moudelId,true)
+	if(moudelId){
+		el.setAttribute('data-cssID-'+moudelId,'')
+	}
 	return el;
 }
 

@@ -4,9 +4,7 @@ var scopeCssPlugin = require('./plugin/scopeCss.js')
 
 
 var styleParse = function(css,options){
-	// debugger;
 	css = JSON.parse(css);
-	// console.log(css,options)
 	var cb = this.async()
 	var options = {
       	map: false,

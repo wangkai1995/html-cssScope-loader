@@ -25,6 +25,8 @@ var doctype = /^<!DOCTYPE [^>]+>/i;
 var comment = /^<!--/;
 //conditional
 var conditionalComment = /^<!\[/
+//sign
+var signReg = /^[\r\n\s\t]+$/;
 
 //为了解决某些版本 编译转化的问题
 var decodingMap = {
@@ -134,7 +136,7 @@ var parseHTML = function(html, option){
 			html = '';
 		}
 
-		if(option.chars && text){
+		if(option.chars && text && !signReg.test(text)){
 			option.chars(text)
 		}
 	}
@@ -157,14 +159,12 @@ var parseHTML = function(html, option){
 				start:index,
 			}
 			advance(tagMatch[0].length)
-
 			while( !(end = html.match(startTagClose)) && (attr = html.match(attributeReg)) ){
 				if(attr){
 					advance(attr[0].length);
 					match.attrs.push(attr);
 				}
 			}
-
 			if(end){
 				match.unarySlash = end[1];
 				match.end = index;
@@ -221,7 +221,7 @@ var parseHTML = function(html, option){
 				if(!match.attrs[i][4]){ delete match.attrs[i][4] }
 				if(!match.attrs[i][5]){ delete match.attrs[i][5] }
 			}
-			var value = match.attrs[i][3] || match.attrs[i][4] || match.attrs[i][5] || ' '
+			var value = match.attrs[i][3] || match.attrs[i][4] || match.attrs[i][5] || ''
 			var re = encodedAttr;
 			attrs.push({
 				name: match.attrs[i][1],

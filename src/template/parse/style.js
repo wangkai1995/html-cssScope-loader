@@ -1,5 +1,5 @@
 var path = require('path');
-var styleStartReg = /(?:(?:<style){1}(?:(?:\s)+(?:lang[\=|\=\=])['"]([a-zA-Z])+['"])?>)/
+var styleStartReg = /(?:(?:<style){1}(?:(?:\s)+(?:lang[\=|\=\=])['"]([a-zA-Z]+)+['"])?>)/
 var styleEndReg = /(?:(?:<\/style>))/
 var styleImportReg = /(?:@import){1}(?:\s*)?(?:'|"){1}([\/\.\w-_]+){1}(?:'|"){1}/
 var styleRequireReg = /(?:require){1}(?:\(){1}(?:'|"){1}([\/\.\w-_]+){1}(?:'|"){1}(?:\)){1}/
@@ -15,10 +15,9 @@ var handleStyle = function(content,resourcePath){
 	var styleConent = content.substring(startIndex, endIndex)
 	content = content.replace(styleStart[0]+styleConent+styleEnd[0],'')
 	stylePaths  = getStyleUrl(styleConent,resourcePath)
-
 	return {
 		content,
-		stylePaths
+		stylePaths,
 	}
 }
 

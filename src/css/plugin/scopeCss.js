@@ -6,8 +6,6 @@ var selectorParser = require('postcss-selector-parser')
 
 module.exports = postcss.plugin('css-scope', function (opts) {
   	return function (root,options) {
-  		// console.log(options)
-  		// debugger;
  		var opts = options.opts;
   		root.each(function rewriteSelector (node) {
 	      	if (!node.selector) {
@@ -41,7 +39,7 @@ module.exports = postcss.plugin('css-scope', function (opts) {
 		            	}
 		         	})
 			        selector.insertAfter(node, selectorParser.attribute({
-			            attribute: `data-cssid-${opts.uniqueID}=true`
+			            attribute: `data-cssid-${opts.uniqueID}`
 			        }))
 		        })
       		}).process(node.selector).result

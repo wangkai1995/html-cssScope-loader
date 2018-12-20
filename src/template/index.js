@@ -3,6 +3,7 @@
 var parse = require('./parse/index.js')
 var { isFilterStyle,handleStyle  } = require('./parse/style.js')
 var renderTemplate = require('./render.js')
+var injectorStyle = require('./injectionStyle.js')
 
 var fristSignReg = /^([\r\n\s\t]+)(?:<((?:[a-zA-Z_][\w\-\.]*\:)?[a-zA-Z_][\w\-\.]*))?/
 var lastSignReg = /(?:(?:(?:[a-zA-Z_][\w\-\.]*\:)?[a-zA-Z_][\w\-\.]*)\/?>)?([\r\n\s\t]+)$/
@@ -37,25 +38,21 @@ var templateParse = function(template,options){
 			template = template.replace(lastSign,'')
 		}
 	}
-	//判断是否存在样式
-	var AST = parse(template);
-	// console.log(AST)
-	var newTemplate = renderTemplate(AST,options)
-	// console.log(newTemplate)
+	//style
 	if(stylePaths && stylePaths.length > 0){
-		importPaths = [];
-		stylePaths.forEach(function(item){
-			importPaths.push(`require("!style-loader!css-loader!${options.selfPath}?{\\'cssModel\\':true,\\'cssScopeId\\':'${options.uniqueID}'}!sass-loader!${item}");`)
-		})
-		importPaths = importPaths.join('\n')
+		importPaths = injectorStyle(stylePaths,options)
+	}else{
+		options.uniqueID = false;
 	}
-
+	//tenmplate
+	var AST = parse(template);
+	var newTemplate = renderTemplate(AST,options)
+	//done
 	return {
 		importPaths:importPaths,
 		template: JSON.stringify(newTemplate)
 	}
 }
-
 
 
 
