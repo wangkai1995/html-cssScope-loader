@@ -45,7 +45,7 @@ var canBeleftOpenTag = makeMap('beleftOpenTag',
 
 //自闭和标签
 var isUnaryTag = makeMap('unaryTag',
-	'embed,img,image,input,link,meta,br'
+	'embed,img,image,input,link,meta,br,base'
 );
 
 
