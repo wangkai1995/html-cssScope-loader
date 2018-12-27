@@ -17,8 +17,6 @@ module.exports = function(content) {
 	options.uniqueID = options.cssScopeId?options.cssScopeId: getUniqueID(resourcePath)
 	options.selfPath = path.resolve(__dirname,'./loader.js');
 	options.selfPath = options.selfPath.replace(/\\/g,"\\\\")
-
-	console.log(options.selfPath)
 	//去除引入信息
 	if(/module\.exports\s?=/.test(content)) {
 		content = content.replace(/module\.exports\s?=\s?/, '');
