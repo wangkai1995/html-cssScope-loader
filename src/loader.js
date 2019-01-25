@@ -6,7 +6,7 @@ var loaderUtils = require("loader-utils");
 var { getUniqueID } = require('./util/index.js')
 var templateParse = require('./template/index.js')
 var styleParse = require('./css/index.js')
-
+var replaceSrc = require('./util/replaceSrc.js')
 
 
 module.exports = function(content) {
@@ -16,11 +16,15 @@ module.exports = function(content) {
 	options.resourcePath = resourcePath;
 	options.uniqueID = options.cssScopeId?options.cssScopeId: getUniqueID(resourcePath)
 	options.selfPath = path.resolve(__dirname,'./loader.js');
-	options.selfPath = options.selfPath.replace(/\\/g,"\\\\")
+	options.selfPath = options.selfPath.replace(/\\/g,"\\\\");
+	options.exclude = options.exclude?options.exclude:false
+
 	//去除引入信息
 	if(/module\.exports\s?=/.test(content)) {
 		content = content.replace(/module\.exports\s?=\s?/, '');
 	}else content = JSON.stringify(content);
+
+
 	//是否传入的是css
 	if(options.cssModel){
 		outResult= styleParse.call(this,content,options)
@@ -29,8 +33,10 @@ module.exports = function(content) {
 		if(importPaths){
 			outResult += importPaths+'\n';
 		}
+		template = replaceSrc(template,options.exclude)
 		outResult += 'module.exports = '+ template
 	}
+	
 	return outResult
 };
 
