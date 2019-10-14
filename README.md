@@ -31,7 +31,16 @@ Webpack ->rules-> config:
 	use: [{
 		loader:'html-css-scope-loader',
 		options: {
-			minimize: true //  = css-loader minimize 
+			minimize: true 		//  = css-loader minimize 
+			extendsLoader:[  	// extends loader
+				{
+					loader: 'px2rem-loader',
+					options: {
+						remUnit: 100,
+						remPrecision: 8
+					}
+				}
+			]
 		}
 	}]
 },
